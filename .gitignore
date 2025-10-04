@@ -34,5 +34,6 @@ outputs/
 *.hdf5
 
 # OS files
+*.in
 .DS_Store
 Thumbs.db
