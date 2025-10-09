@@ -56,8 +56,9 @@ class FeatureEngineering:
 
 # class for fill missing values
 class FillMissingValues:
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df: pd.DataFrame, Name=None):
         self.df = df
+        self.Name = Name if Name else "DataFrame"
 
     def fill_age(self) -> pd.DataFrame:
         '''Fill missing values in the 'Age' feature with the median age based on their title if title available.'''
@@ -93,10 +94,10 @@ class FillMissingValues:
         '''Check for any remaining missing values in the DataFrame and raise warnings.'''
         missing_values = self.df.isnull().sum()
         if missing_values.any():
-            print("**WARNING**: The following columns have missing values:")
+            print(f"**WARNING**: The following columns have missing values for {self.Name}")
             print(missing_values[missing_values > 0])
         else:
-            print("No missing values found.")
+            print(f"No missing values found for {self.Name}.")
 
 
 if __name__ == "__main__":
@@ -105,7 +106,7 @@ if __name__ == "__main__":
     test_data_path = os.path.join('data', 'src_processed', 'cleaned_test.csv')
     # Load the data
     train_data = load_data(train_data_path)
-    test_data_path = load_data(test_data_path)
+    test_data = load_data(test_data_path)
     # Feature Engineering
     fe_train = FeatureEngineering(train_data)
     train_data = fe_train.add_FamilySize()
@@ -114,30 +115,30 @@ if __name__ == "__main__":
     train_data = fe_train.add_cabin_deck()
     train_data = fe_train.drop_feature('Ticket')
     train_data = fe_train.drop_feature('Name')
-    fe_test = FeatureEngineering(test_data_path)
-    test_data_path = fe_test.add_FamilySize()
-    test_data_path = fe_test.add_IsAlone()
-    test_data_path = fe_test.add_title()
-    test_data_path = fe_test.add_cabin_deck()
-    test_data_path = fe_test.drop_feature('Ticket')
-    test_data_path = fe_test.drop_feature('Name')
+    fe_test = FeatureEngineering(test_data)
+    test_data = fe_test.add_FamilySize()
+    test_data = fe_test.add_IsAlone()
+    test_data = fe_test.add_title()
+    test_data = fe_test.add_cabin_deck()
+    test_data = fe_test.drop_feature('Ticket')
+    test_data = fe_test.drop_feature('Name')
     # Fill Missing Values
-    fmv_train = FillMissingValues(train_data)
+    fmv_train = FillMissingValues(train_data, Name="Train Data")
     train_data = fmv_train.fill_age()
     train_data = fmv_train.fill_embarked()
     train_data = fmv_train.fill_fare()
     fmv_train.warnings()
-    fmv_test = FillMissingValues(test_data_path)
-    test_data_path = fmv_test.fill_age()
-    test_data_path = fmv_test.fill_embarked()
-    test_data_path = fmv_test.fill_fare()
+    fmv_test = FillMissingValues(test_data, Name="Test Data")
+    test_data = fmv_test.fill_age()
+    test_data = fmv_test.fill_embarked()
+    test_data = fmv_test.fill_fare()
     fmv_test.warnings()
     # Display the first few rows of the data
-    if not train_data.empty and not test_data_path.empty:
+    if not train_data.empty and not test_data.empty:
         print(f'Train Data: shape = f{train_data.shape}\n{train_data.head()}')
-        print(f'Test Data: shape = f{test_data_path.shape}\n{test_data_path.head()}')
+        print(f'Test Data: shape = f{test_data.shape}\n{test_data.head()}')
         # Save the feature engineered data
         save_data(train_data, os.path.join('data', 'src_processed', 'feature_engineered_train.csv'))
-        save_data(test_data_path, os.path.join('data', 'src_processed', 'feature_engineered_test.csv'))
+        save_data(test_data, os.path.join('data', 'src_processed', 'feature_engineered_test.csv'))
     else:
         print("No data loaded.")
