@@ -102,8 +102,8 @@ class FillMissingValues:
 
 if __name__ == "__main__":
     # Define the path to the data file
-    train_data_path = os.path.join('data', 'src_processed', 'cleaned_train.csv')
-    test_data_path = os.path.join('data', 'src_processed', 'cleaned_test.csv')
+    train_data_path = os.path.join('src','data', 'cleaned_train.csv')
+    test_data_path = os.path.join('src','data', 'cleaned_test.csv')
     # Load the data
     train_data = load_data(train_data_path)
     test_data = load_data(test_data_path)
@@ -138,7 +138,7 @@ if __name__ == "__main__":
         print(f'Train Data: shape = f{train_data.shape}\n{train_data.head()}')
         print(f'Test Data: shape = f{test_data.shape}\n{test_data.head()}')
         # Save the feature engineered data
-        save_data(train_data, os.path.join('data', 'src_processed', 'feature_engineered_train.csv'))
-        save_data(test_data, os.path.join('data', 'src_processed', 'feature_engineered_test.csv'))
+        save_data(train_data, os.path.join('src', 'data', 'feature_engineered_train.csv'))
+        save_data(test_data, os.path.join('src', 'data', 'feature_engineered_test.csv'))
     else:
         print("No data loaded.")

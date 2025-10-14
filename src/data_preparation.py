@@ -39,18 +39,18 @@ if __name__ == "__main__":
     
     # Load the data
     train_data = load_data(train_data_path)
-    test_data_path = load_data(test_data_path)
+    test_data = load_data(test_data_path)
     
     # Clean the data
     train_data = clean_data(train_data)
-    test_data = clean_data(test_data_path)
+    test_data = clean_data(test_data)
 
     # Display the first few rows of the data
-    if not train_data.empty and not test_data_path.empty:
+    if not train_data.empty and not test_data.empty:
         print(f'Train Data: shape = f{train_data.shape}\n{train_data.head()}')
-        print(f'Test Data: shape = f{test_data.shape}\n{test_data_path.head()}')
+        print(f'Test Data: shape = f{test_data.shape}\n{test_data.head()}')
         # Save the cleaned data
-        save_data(train_data, os.path.join('data', 'src_processed', 'cleaned_train.csv'))
-        save_data(test_data_path, os.path.join('data', 'src_processed', 'cleaned_test.csv'))
+        save_data(train_data, os.path.join('src', 'data', 'cleaned_train.csv'))
+        save_data(test_data, os.path.join('src', 'data', 'cleaned_test.csv'))
     else:
         print("No data loaded.")
