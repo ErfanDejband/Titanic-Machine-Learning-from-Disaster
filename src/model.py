@@ -135,7 +135,10 @@ if __name__ == "__main__":
     save_data(y_val, os.path.join('src','data', 'y_val.csv'))
     save_data(test_data_encoded, os.path.join('src','data', 'test_data.csv'))
     # let user decide load model or retrain R for retrain and L for load
-    choice = input("Enter 'R' to retrain or 'L' to load a saved model: ").strip().upper()
+    choice = input("Enter 'R' to retrain or 'L' to load a saved model: ").strip().upper() #TODO remove this and to the following
+    # check if the model saved is same as the current model
+    # if not same, retrain the model
+    # else load the model
     if choice not in ('R', 'L'):
         print("Invalid choice, defaulting to retrain ('R').")
         choice = 'R'
